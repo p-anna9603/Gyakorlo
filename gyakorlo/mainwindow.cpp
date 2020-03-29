@@ -25,20 +25,19 @@ void MainWindow::on_pushButton_clicked()
     if(db->getDb().open())
     {
         QSqlQuery query(db->getDb());
-        query.prepare(QString("INSERT INTO Gyakorlas (Firstname,Lastname,Group name) "
-                              "VALUES (:fname,:lname,:gname"));
+        query.prepare(QString("INSERT INTO Gyakorlas (Firstname,Lastname,Groupname) VALUES (:fname,:lname,:gname)"));
         query.bindValue(":fname",firstName);
         query.bindValue(":lname",lastName);
         query.bindValue(":gname",groupName);
-        query.exec();
-//        if(query.exec())
-//        {
-//            QMessageBox::information(this,"Success", "Values inserted into database");
-//        }
-//        else
-//        {
-//            QMessageBox::information(this,"Failure", "Values not inserted into database");QMessageBox::information(this,"Success", "Values inserted into database");QMessageBox::information(this,"Success", "Values inserted into database");
-//        }
+       // query.exec();
+        if(query.exec())
+        {
+            QMessageBox::information(this,"Success", "Values inserted into database");
+        }
+        else
+        {
+            QMessageBox::information(this,"Failure", "Values not inserted into database");
+        }
 
     }
     else
