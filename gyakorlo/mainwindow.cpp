@@ -17,31 +17,43 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString firstName = ui->firstname->text();
-    QString lastName = ui->lastname->text();
-    QString groupName = ui->groupname->text();
-    qDebug() << firstName << " " << lastName << " " << groupName;
+        QString username = ui->username->text();
+        QString password = ui->password->text();
 
-    if(db->getDb().open())
-    {
-        QSqlQuery query(db->getDb());
-        query.prepare(QString("INSERT INTO Gyakorlas (Firstname,Lastname,Groupname) VALUES (:fname,:lname,:gname)"));
-        query.bindValue(":fname",firstName);
-        query.bindValue(":lname",lastName);
-        query.bindValue(":gname",groupName);
-       // query.exec();
-        if(query.exec())
+        if(db->getDb().open())
         {
-            QMessageBox::information(this,"Success", "Values inserted into database");
+            QSqlQuery query(db->getDb());
+            query.prepare(QString("SELECT * FROM Hozzaferes WHERE username = :username AND password = :password"));
+            query.bindValue(":username", username);
+            query.bindValue(":password", password);
+            if(!query.exec())
+            {
+                QMessageBox::information(this, "Failed", "Query Failed to execute");
+            }
+            else
+            {
+                while(query.next())
+                {
+                    QString usernameFromDB = query.value(0).toString();
+                    QString passwordFromDB = query.value(1).toString();
+                    if(usernameFromDB == username && passwordFromDB == password)
+                    {
+                        if ((username=="admin" && password=="admin"))
+                        {
+                            adminFelulet *testAdmin=new adminFelulet(username, db);
+                            testAdmin->show();
+                            this->close();
+                        }
+                    }
+                    else
+                    {
+                        QMessageBox::information(this, "Failed","Login Failed");
+                    }
+                }
+            }
         }
         else
         {
-            QMessageBox::information(this,"Failure", "Values not inserted into database");
+            QMessageBox::information(this, "Not Connected", "Database not connected");
         }
-
-    }
-    else
-    {
-        QMessageBox::information(this, "Not Connected", "Database not connected");
-    }
 }

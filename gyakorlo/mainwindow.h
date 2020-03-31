@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "databaseconnection.h"
+#include "adminfelulet.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
