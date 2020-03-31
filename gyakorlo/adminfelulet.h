@@ -13,7 +13,7 @@ class adminFelulet : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit adminFelulet(const QString& adminName="Unknown",DatabaseConnection *db = nullptr, QWidget *parent = nullptr);
+    explicit adminFelulet(DatabaseConnection *db = nullptr, QWidget *parent = nullptr);
     ~adminFelulet();
 
 private slots:

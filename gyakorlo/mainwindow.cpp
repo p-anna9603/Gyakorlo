@@ -40,7 +40,7 @@ void MainWindow::on_pushButton_clicked()
                     {
                         if ((username=="admin" && password=="admin"))
                         {
-                            adminFelulet *testAdmin=new adminFelulet(username, db);
+                            adminFelulet *testAdmin=new adminFelulet(db);
                             testAdmin->show();
                             this->close();
                         }

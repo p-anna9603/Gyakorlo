@@ -1,13 +1,12 @@
 #include "adminfelulet.h"
 #include "ui_adminfelulet.h"
 
-adminFelulet::adminFelulet(const QString& adminName,DatabaseConnection *db, QWidget *parent) :
+adminFelulet::adminFelulet(DatabaseConnection *db, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::adminFelulet),
     db(db)
 {
     ui->setupUi(this);
-    ui->adminUsername->setText(adminName);
 }
 
 adminFelulet::~adminFelulet()
