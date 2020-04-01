@@ -1,5 +1,5 @@
 QT       += core gui sql
-QT       += core network
+#QT       += core network
 
 QTPLUGIN = QSQLMYSQL
 
@@ -19,15 +19,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    adminfelulet.cpp \
     databaseconnection.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    adminfelulet.h \
     databaseconnection.h \
     mainwindow.h
 
 FORMS += \
+    adminfelulet.ui \
     mainwindow.ui
 
 # Default rules for deployment.
