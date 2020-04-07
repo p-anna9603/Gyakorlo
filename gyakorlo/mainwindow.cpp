@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    db->getDb().close();
+    QSqlDatabase::removeDatabase("QMYSQL");
 }
 
 
@@ -32,22 +34,17 @@ void MainWindow::on_pushButton_clicked()
             }
             else
             {
-                while(query.next())
+                if(query.size() == 0)
                 {
-                    QString usernameFromDB = query.value(0).toString();
-                    QString passwordFromDB = query.value(1).toString();
-                    if(usernameFromDB == username && passwordFromDB == password)
+                    QMessageBox::information(this, "Failed", "Login Failed to execute");
+                }
+                else
+                {
+                    while(query.next())
                     {
-                        if ((username=="admin" && password=="admin"))
-                        {
-                            adminFelulet *testAdmin=new adminFelulet(db);
-                            testAdmin->show();
-                            this->close();
-                        }
-                    }
-                    else
-                    {
-                        QMessageBox::information(this, "Failed","Login Failed");
+                        adminFelulet *testAdmin=new adminFelulet(db);
+                        testAdmin->show();
+                        this->close();
                     }
                 }
             }
@@ -57,3 +54,37 @@ void MainWindow::on_pushButton_clicked()
             QMessageBox::information(this, "Not Connected", "Database not connected");
         }
 }
+
+//void MainWindow::on_pushButton_clicked()
+//{
+//        QString username = ui->username->text();
+//        QString password = ui->password->text();
+
+//        if(db->getDb().open())
+//        {
+//            QSqlQuery query(db->getDb());
+//            query.prepare(QString("SELECT * FROM Hozzaferes"));
+//            if(!query.exec())
+//            {
+//                QMessageBox::information(this, "Failed", "Query Failed to execute");
+//            }
+//            else
+//            {
+//                while(query.next())
+//                {
+//                        QString usernameFromDb = query.value(0).toString();
+//                        QString passwordFromDb = query.value(1).toString();
+//                        if(usernameFromDb == username && passwordFromDb == password)
+//                        {
+//                                adminFelulet *admin = new adminFelulet(db);
+//                                admin->show();
+//                                this->close();
+//                        }
+//                }
+//            }
+//        }
+//        else
+//        {
+//            QMessageBox::information(this, "Not Connected", "Database not connected");
+//        }
+//}
